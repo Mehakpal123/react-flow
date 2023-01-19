@@ -5,7 +5,7 @@ React Flow Project
 1. Download or Clone this Repository files in your Local Machine.
 2. Open project root in terminal, and run command "npm install".
 3. Once packages are installed, run "npm start".
-4. Hopefully your project should be running on localhost at port 3000. http://localhost:3000
+4. Your project should be running on localhost at port 3000. http://localhost:3000
 
 # About Project
 The project once start on localhost:3000, will show a bunch of nodes and edges grouped together called a graph. The nodes are built using AWS Icons. The flow data is being received from a backend server built with node. The nodes are draggable/movable. The nodes could be deleted by pressing "Backspace" button. The edges used are smooth and have respective label.
