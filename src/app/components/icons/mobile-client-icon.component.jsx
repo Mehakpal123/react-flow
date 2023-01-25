@@ -2,7 +2,7 @@ import React from 'react'
 import MobileClient from 'react-aws-icons/dist/aws/general/MobileClient';
 import { Handle } from 'reactflow';
 
-function MobileClientIcon({ data: { handles, label } }) {
+function MobileClientIcon({ data: { handles, label, size } }) {
 	return (
 		<>
 			{

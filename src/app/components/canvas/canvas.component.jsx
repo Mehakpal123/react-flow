@@ -15,7 +15,6 @@ function Canvas() {
 		fetch(`http://localhost:5000/get-flow-data`)
 			.then((response) => response.json())
 			.then((data) => {
-				// data.nodes.map(node => node.position = { x: 0, y: 0 });
 				data.edges.map(edge => {
 					edge.label = edge.data.label;
 					edge.markerEnd = {
@@ -27,11 +26,8 @@ function Canvas() {
 
 				const elk = new ELK({
 					defaultLayoutOptions: {
-						"elk.algorithm": "layered",
-						"elk.direction": "BOTTOM",
 						"elk.layered.spacing.nodeNodeBetweenLayers": 170,
 						"elk.spacing.nodeNode": "100",
-
 					}
 				});
 				const graph = {
@@ -47,7 +43,6 @@ function Canvas() {
 							const nodeUpper = graph.children.find((node2) => node2.id === node.appearUnder);
 							node.position = { x: nodeUpper.x, y: nodeUpper.y + 138 }
 						}
-						node.data.foo = 'bar';
 					})
 					graph.edges.map((edge) => edge)
 					setNodes(graph.children);
@@ -69,7 +64,7 @@ function Canvas() {
 			{(nodes && nodes.length > 0) && (edges && edges.length) > 0 ? <ReactFlow nodeTypes={nodeTypes} nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} fitView>
 				<Background />
 				<Controls />
-			</ReactFlow> : <p>Loading</p>}
+			</ReactFlow> : <p>Loading...</p>}
 		</div>
 	)
 }
