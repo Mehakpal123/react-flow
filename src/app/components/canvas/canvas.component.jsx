@@ -41,7 +41,13 @@ function Canvas() {
 				}
 
 				elk.layout(graph).then((graph) => {
-					graph.children.map((node) => node.position = { x: node.x, y: node.y })
+					graph.children.map((node) => {
+						node.position = { x: node.x, y: node.y }
+						if (node.appearUnder) {
+							const nodeUpper = graph.children.find((node2) => node2.id === node.appearUnder);
+							node.position = { x: nodeUpper.x, y: nodeUpper.y + 138 }
+						}
+					})
 					graph.edges.map((edge) => edge)
 					setNodes(graph.children);
 					setEdges(graph.edges);
