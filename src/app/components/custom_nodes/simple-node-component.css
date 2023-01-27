@@ -1,4 +1,10 @@
 #simple-node__main{
-	border:1px solid black;
-	border-radius: 4px;
+	/* border: 1px solid black; */
+    /* border-radius: 4px; */
+    /* background: rgb(227, 193, 204); */
+}
+
+#simple-node__main p {
+	/* font-size: 9px; */
+    /* padding: 5px 6px; */
 }

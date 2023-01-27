@@ -5,7 +5,7 @@ import { Handle } from 'reactflow';
 function LambdaFunctionIcon({ data: { handles } }) {
 	return <>
 		{
-			handles.map(({ id, type, position }) => <Handle key={id} id={id} type={type} position={position} style={{ background: '#555' }}
+			handles && handles.map(({ id, type, position }) => <Handle key={id} id={id} type={type} position={position} style={{ background: '#555' }}
 				isConnectable={true} />)
 		}
 		<LambdaFunction size={45} />
