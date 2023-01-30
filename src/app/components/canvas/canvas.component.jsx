@@ -9,6 +9,7 @@ function Canvas() {
 
 	const [nodes, setNodes] = useState(null);
 	const [edges, setEdges] = useState(null);
+	const [finalNodes, setFinalNodes] = useState(null);
 
 
 	useEffect(() => {
@@ -42,44 +43,77 @@ function Canvas() {
 
 						if (node.appearUnder) {
 							const nodeUpper = graph.children.find((node2) => node2.id === node.appearUnder);
-							node.position = { x: nodeUpper.x, y: nodeUpper.y + 138 }
-						}
+							console.log('node upper---', nodeUpper);
+							node.position = { x: nodeUpper.position.x, y: nodeUpper.position.y + 138 }
 
-						if (node.appearAbove) {
-							const nodeLower = graph.children.find((node2) => node2.id === node.appearAbove);
-							const lastNodeHorizontal = graph.children.find((node2) => node2.id === node.lastNode.horizontal);
-							const lastNodeVertical = graph.children.find((node2) => node2.id === node.lastNode.vertical);
-
-							if (node.type === 'SimpleNode') {
-								node.position = { x: nodeLower.x - 15, y: nodeLower.y - 100 }
-							}
-
-							if (node.lastNode) {
-								node.position = { x: nodeLower.x - 15, y: nodeLower.y - 138 };
-								console.log('node lower width---', nodeLower);
-								node.style = {
-									...node.style,
-									width: lastNodeHorizontal
-										? lastNodeHorizontal.x - 292 :
-										nodeLower.width + 80
-								}
-							}
+							console.log('final node', node);
 						}
 					})
-					graph.edges.map((edge) => edge)
 					setNodes(graph.children);
 					setEdges(graph.edges);
 				}).catch(console.error)
 			})
 	}, [])
 
+	useEffect(() => {
+		console.log('pre nodes---', nodes);
+		// const allNodes = nodes;
+		nodes && nodes.map((node) => {
+			if (node.appearAbove) {
+				const nodeLower = nodes.find((node2) => node2.id === node.appearAbove);
+				let lastNodeHorizontal = nodes.find((node2) => node2.id === node.lastNode.horizontal),
+					lastNodeVertical = nodes.find((node2) => node2.id === node.lastNode.vertical);
+
+				let lastNodeHorizontalWidth = lastNodeHorizontal ? lastNodeHorizontal.width : '',
+					lastNodeVerticalWidth = lastNodeVertical ? lastNodeVertical.width : '';
+
+				let lastNodeHorizontalHeight = lastNodeHorizontal ? lastNodeHorizontal.height : '',
+					lastNodeVerticalHeight = lastNodeVertical ? lastNodeVertical.height : '';
+
+				if (node.type === 'SimpleNode') {
+					node.position = { x: nodeLower.x - 15, y: nodeLower.y - 50 }
+				}
+
+				if (node.lastNode) {
+					let width, height = '';
+
+					if (lastNodeVertical && lastNodeHorizontal) {
+
+						height = lastNodeVertical.position.y + lastNodeVertical.height + 10;
+						width = `${lastNodeHorizontal.x - 292}px`;
+					}
+
+					if (lastNodeVertical && !lastNodeHorizontal) {
+						height = lastNodeVertical.position.y + lastNodeVertical.height + 120
+						width = lastNodeVertical.width + 20
+					}
+
+					if (lastNodeHorizontal && !lastNodeVertical) {
+						width = `${lastNodeHorizontal.x - 292}px`;
+						height = `${lastNodeHorizontal.height + lastNodeHorizontal.position.y + 150}px`
+					}
+
+
+
+					node.position = { x: nodeLower.x - 15, y: nodeLower.y - 138 };
+					node.style = {
+						...node.style,
+						width,
+						height
+					}
+				}
+			}
+		})
+		setFinalNodes(nodes);
+
+	}, [nodes])
+
 	const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
 	const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
 
 	return (
 		<div className='canvas__main-div'>
-			{console.log('nodes', nodes)}
-			{nodes ? <ReactFlow nodeTypes={nodeTypes} nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} fitView>
+			{finalNodes ? <ReactFlow nodeTypes={nodeTypes} nodes={finalNodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} fitView>
 				<Background />
 				<Controls />
 			</ReactFlow> : <p>Loading...</p>}

@@ -2,7 +2,7 @@ import React from 'react'
 import S3 from 'react-aws-icons/dist/aws/logo/S3';
 import { Handle } from 'reactflow';
 
-function S3Icon({ data: { handles } }) {
+function S3Icon({ data: { handles, label } }) {
 	return (
 		<>
 			{
@@ -18,7 +18,7 @@ function S3Icon({ data: { handles } }) {
 					marginTop: '38px',
 					marginLeft: '9px'
 				}}
-				>AWS S3</small>
+				>{label}</small>
 			</div>
 
 		</>
